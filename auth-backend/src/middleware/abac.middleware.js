@@ -1,7 +1,13 @@
 const { Producto } = require('../models');
 
-// ── Helper: extrae el primer rol del usuario ──────────────
-const getRol = (req) => req.usuario?.roles?.[0];
+const getRol = (req) => {
+  const roles = req.usuario?.roles || [];
+  if (roles.includes('Admin')) return 'Admin';
+  if (roles.includes('Gerente')) return 'Gerente';
+  if (roles.includes('Empleado')) return 'Empleado';
+  if (roles.includes('Auditor')) return 'Auditor';
+  return roles[0];
+};
 
 // ── Helper: verifica si el usuario pertenece a la tienda ─
 const esDeSuTienda = (req, tienda_id) => {
